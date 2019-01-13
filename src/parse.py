@@ -48,14 +48,30 @@ def freq_from_pdf(filepath):
     # Load pdf and get the text from it
     pdf_text = parser.from_file(filepath)
 
+    print(type(pdf_text))
+
+    # Remove newline characters
+    pdf_text['content'] = pdf_text['content'].replace("\n", '')
+
+    # Remove spaces
+    pdf_text['content'] = pdf_text['content'].replace(" ", '')
+
     return get_frequency(ts.tokenize(pdf_text["content"]))
 
 
 # Load a list of blacklisted words from a file
 def load_blacklist():
     # Load blacklist from file
+    blacklist = []
 
-    return
+    # Open blacklist file
+    f = open("/home/brkurzawa/PycharmProjects/jpankiwords/src/blacklist", "r")
+
+    # Store each word in the list
+    for word in f:
+        blacklist.append(word)
+    
+    return blacklist
 
 
 # Save list to file
@@ -71,14 +87,12 @@ def add_word_to_blacklist(word):
     return
 
 
-test_str = "私の名前は中野です"
-
-print(get_frequency(ts.tokenize(test_str)))
-
-text = parser.from_file("/home/brkurzawa/PycharmProjects/jpankiwords/src/nihong_hanashikata.pdf")
-
-print(get_frequency(ts.tokenize(text["content"])))
+# test_str = "私の名前は中野です"
+#
+# print(get_frequency(ts.tokenize(test_str)))
+#
+# text = parser.from_file("/home/brkurzawa/PycharmProjects/jpankiwords/src/nihong_hanashikata.pdf")
+#
+# print(get_frequency(ts.tokenize(text["content"])))
 
 print(freq_from_pdf("/home/brkurzawa/PycharmProjects/jpankiwords/src/nihong_hanashikata.pdf"))
-
-# TODO: Account for the fact that newlines split up words, which causes tinysegmenter to not work properly in some cases
